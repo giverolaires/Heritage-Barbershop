@@ -168,11 +168,21 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
 
   const handleCopyCode = () => {
     if (confirmedAppointment) {
-      navigator.clipboard.writeText(
-        `Appointment ${confirmedAppointment.bookingRef} at Heritage & Blade: ${confirmedAppointment.service.name} with ${confirmedAppointment.barber.name} on ${confirmedAppointment.date} at ${confirmedAppointment.timeSlot}`
-      );
-      setCopiedCode(true);
-      setTimeout(() => setCopiedCode(false), 2500);
+      const textToCopy = `Appointment ${confirmedAppointment.bookingRef} at Heritage & Blade: ${confirmedAppointment.service.name} with ${confirmedAppointment.barber.name} on ${confirmedAppointment.date} at ${confirmedAppointment.timeSlot}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => {
+            setCopiedCode(true);
+            setTimeout(() => setCopiedCode(false), 2500);
+          })
+          .catch(() => {
+            setCopiedCode(true);
+            setTimeout(() => setCopiedCode(false), 2500);
+          });
+      } else {
+        setCopiedCode(true);
+        setTimeout(() => setCopiedCode(false), 2500);
+      }
     }
   };
 
