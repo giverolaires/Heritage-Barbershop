@@ -1,0 +1,6 @@
+{
+  "name": "Heritage & Blade Barbershop",
+  "description": "Craft barbershop offering bespoke haircutting, traditional hot towel straight-razor shaves, beard sculpting, an interactive booking system, and curated style gallery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
