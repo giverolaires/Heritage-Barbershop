@@ -13,98 +13,83 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onExplorePricing,
 }) => {
   return (
-    <section className="relative overflow-hidden bg-[#0d0f12] border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <section className="relative overflow-hidden bg-[#f8f7f4] border-b border-[#1c1c1c]/10">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-8 py-14 lg:py-20">
         
-        {/* Left Column: Proposition & CTA */}
-        <div className="lg:col-span-7 space-y-8 z-10">
-          {/* Quiet unboxed kicker */}
-          <div className="flex items-center gap-3 text-xs tracking-widest uppercase font-medium text-[#c59b27]">
-            <span>Est. 2018</span>
-            <span aria-hidden="true">·</span>
-            <span>Handcrafted Grooming</span>
-            <span aria-hidden="true">·</span>
-            <span>418 St. Clair Ave</span>
-          </div>
+        {/* Split Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center min-h-[65vh]">
+          
+          {/* Left Column: Proposition & CTA */}
+          <div className="lg:col-span-7 space-y-6">
+            <span className="meta-tag">Mastering the Blade / Est. 2018</span>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#fbf8f3] tracking-tight leading-[1.1] text-balance">
-            Master Barbering for the Discerning Gentleman
-          </h1>
+            <h1 className="serif-display text-4xl sm:text-5xl lg:text-6xl text-[#1c1c1c] leading-[1.06] tracking-tight">
+              Refinement for the Modern Man
+            </h1>
 
-          <p className="text-base sm:text-lg text-[#b8b2a5] leading-relaxed max-w-2xl font-light">
-            Bespoke shear craft, surgical skin fades, and traditional hot towel straight-razor shaves. We treat grooming as an enduring art form — no rushed cuts, no assembly lines, just dedicated time in the chair.
-          </p>
+            <p className="text-[#1c1c1c]/70 text-base sm:text-lg leading-relaxed max-w-xl font-light">
+              Bespoke shear craft, surgical skin fades, and traditional hot towel straight-razor shaves. We treat grooming as an enduring art form — no rushed cuts, no assembly lines.
+            </p>
 
-          {/* Primary Action Zone */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <button
-              onClick={onOpenBooking}
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm font-semibold tracking-wide text-[#0d0f12] bg-[#c59b27] hover:bg-[#d8ab34] rounded-md transition-all shadow-md group"
-            >
-              <span>Book Your Chair</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </button>
-
-            <button
-              onClick={onExploreGallery}
-              className="inline-flex items-center justify-center px-5 py-3.5 text-sm font-medium text-[#e4decb] bg-white/5 hover:bg-white/10 border border-white/15 rounded-md transition-colors"
-            >
-              View Haircut Gallery
-            </button>
-
-            <button
-              onClick={onExplorePricing}
-              className="inline-flex items-center justify-center px-4 py-3.5 text-sm font-medium text-[#a09a8e] hover:text-[#f4efe6] transition-colors"
-            >
-              See Service Menu
-            </button>
-          </div>
-
-          {/* Proof Adjacency: Clean unboxed metadata with separators */}
-          <div className="pt-6 border-t border-white/10 grid grid-cols-3 gap-4 text-xs sm:text-sm">
-            <div>
-              <div className="font-semibold text-[#f4efe6] font-serif text-lg sm:text-xl">4.95 / 5.0</div>
-              <div className="text-[#8c867a] mt-0.5">Over 1,200+ Verified Cuts</div>
-            </div>
-            <div>
-              <div className="font-semibold text-[#f4efe6] font-serif text-lg sm:text-xl">3 Master Barbers</div>
-              <div className="text-[#8c867a] mt-0.5">Bespoke 45-90m Sessions</div>
-            </div>
-            <div>
-              <div className="font-semibold text-[#f4efe6] font-serif text-lg sm:text-xl">Zero Wait Time</div>
-              <div className="text-[#8c867a] mt-0.5">Guaranteed Chair Slot</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Hero Visual Focal Carrier */}
-        <div className="lg:col-span-5 relative">
-          <div className="relative aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] rounded-lg overflow-hidden border border-white/15 shadow-2xl bg-[#161920]">
-            <img
-              src="/src/assets/images/hero_barbershop_interior_1791282714553.jpg"
-              alt="Heritage and Blade Artisanal Barbershop Interior"
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-            {/* Measured scrim */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d0f12]/80 via-transparent to-transparent pointer-events-none" />
-            
-            {/* Floating studio status tag */}
-            <div className="absolute bottom-4 left-4 right-4 bg-[#12151be6]/90 backdrop-blur-md p-3.5 rounded border border-white/10 flex items-center justify-between text-xs text-[#cfc8ba]">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="font-medium text-[#f4efe6]">Chairs Open Today</span>
-                <span className="text-white/40">·</span>
-                <span>8:00 AM – 8:00 PM</span>
-              </div>
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <button
                 onClick={onOpenBooking}
-                className="text-[#c59b27] hover:underline font-medium text-xs whitespace-nowrap"
+                className="btn-elegant"
               >
-                Reserve Slot &rarr;
+                <span>Secure Your Appointment</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+              <button
+                onClick={onExplorePricing}
+                className="px-6 py-3 text-xs uppercase tracking-[0.14em] font-bold text-[#1c1c1c] bg-white border border-[#1c1c1c]/20 hover:border-[#1c1c1c] transition-colors"
+              >
+                The Menu
+              </button>
+
+              <button
+                onClick={onExploreGallery}
+                className="px-4 py-3 text-xs uppercase tracking-[0.14em] font-bold text-[#876d3e] hover:text-[#1c1c1c] transition-colors"
+              >
+                Craft Gallery &rarr;
               </button>
             </div>
+
+            {/* Proof metrics with editorial hairline */}
+            <div className="pt-8 border-t border-[#1c1c1c]/15 grid grid-cols-3 gap-4 text-xs sm:text-sm">
+              <div>
+                <div className="serif-display font-semibold text-xl sm:text-2xl text-[#1c1c1c]">4.95 / 5.0</div>
+                <div className="text-[#1c1c1c]/60 text-xs mt-0.5">1,200+ Verified Visits</div>
+              </div>
+              <div>
+                <div className="serif-display font-semibold text-xl sm:text-2xl text-[#1c1c1c]">3 Craftsmen</div>
+                <div className="text-[#1c1c1c]/60 text-xs mt-0.5">London Academy Trained</div>
+              </div>
+              <div>
+                <div className="serif-display font-semibold text-xl sm:text-2xl text-[#1c1c1c]">Zero Wait</div>
+                <div className="text-[#1c1c1c]/60 text-xs mt-0.5">Punctual Chair Times</div>
+              </div>
+            </div>
           </div>
+
+          {/* Right Column: Framed Image Showcase */}
+          <div className="lg:col-span-5">
+            <div className="img-wrap">
+              <div className="relative aspect-[4/3] overflow-hidden bg-[#ece8de]">
+                <img
+                  src="/src/assets/images/hero_barbershop_interior_1791282714553.jpg"
+                  alt="Heritage and Blade Studio"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="mt-4 flex items-center justify-between text-[0.7rem] uppercase tracking-[0.15em] text-[#1c1c1c]/60 font-semibold">
+                <span>MIDTOWN DISTRICT, TORONTO</span>
+                <span className="text-[#876d3e]">OPEN MON – SUN</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>

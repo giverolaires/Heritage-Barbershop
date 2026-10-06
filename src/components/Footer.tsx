@@ -1,5 +1,4 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Clock, ShieldCheck } from 'lucide-react';
 
 interface FooterProps {
   onOpenBooking: () => void;
@@ -7,99 +6,60 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onOpenBooking }) => {
   return (
-    <footer className="bg-[#0b0c0f] text-[#c0bbb2] border-t border-white/10 pt-16 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
-          
-          {/* Brand Col */}
-          <div className="space-y-4">
-            <span className="text-2xl font-serif font-bold text-[#f8f5ee] tracking-wider">
-              HERITAGE &amp; BLADE
-            </span>
-            <p className="text-xs text-[#8c867a] leading-relaxed max-w-xs">
-              An authentic barbershop devoted to classical scissor craft, skin fades, and hot-towel straight-razor shaving. Est. 2018.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={onOpenBooking}
-                className="px-4 py-2 text-xs font-semibold text-[#0d0f12] bg-[#c59b27] hover:bg-[#d8ab34] rounded transition-colors"
-              >
-                Book Appointment
-              </button>
-            </div>
-          </div>
-
-          {/* Hours Col */}
-          <div className="space-y-3">
-            <h4 className="text-xs uppercase tracking-wider text-[#f8f5ee] font-semibold">
-              Studio Hours
-            </h4>
-            <div className="space-y-1.5 text-xs text-[#8c867a]">
-              <div className="flex justify-between">
-                <span>Monday – Friday</span>
-                <span className="text-[#f8f5ee] tabular-nums">8:00 AM – 8:00 PM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Saturday</span>
-                <span className="text-[#f8f5ee] tabular-nums">8:00 AM – 6:00 PM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Sunday</span>
-                <span className="text-[#f8f5ee] tabular-nums">10:00 AM – 5:00 PM</span>
-              </div>
-              <p className="text-[11px] text-[#6e685d] pt-2">
-                *Early 7:30 AM executive slots available upon request.
-              </p>
-            </div>
-          </div>
-
-          {/* Location & Contact */}
-          <div className="space-y-3">
-            <h4 className="text-xs uppercase tracking-wider text-[#f8f5ee] font-semibold">
-              Location &amp; Inquiries
-            </h4>
-            <div className="space-y-2 text-xs text-[#8c867a]">
-              <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-[#c59b27] shrink-0 mt-0.5" />
-                <span>418 St. Clair Ave, Suite 4<br />Toronto / Midtown District</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-[#c59b27] shrink-0" />
-                <span>(555) 234-5678</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#c59b27] shrink-0" />
-                <span>appointments@heritageblade.com</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Shop Policies */}
-          <div className="space-y-3">
-            <h4 className="text-xs uppercase tracking-wider text-[#f8f5ee] font-semibold">
-              Chair Policies
-            </h4>
-            <ul className="space-y-1.5 text-xs text-[#8c867a]">
-              <li>· Punctuality: Please arrive 5 minutes prior to appointment.</li>
-              <li>· Cancellation: 4-hour advance notice appreciated.</li>
-              <li>· Payment: Major cards, contactless Apple/Google Pay, and cash.</li>
-              <li>· Walk-ins: Subject to daily chair availability.</li>
-            </ul>
-          </div>
-
+    <footer className="bg-[#1c1c1c] text-[#f8f7f4] py-16 sm:py-20">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-8 text-center sm:text-left">
+        
+        <div className="flex flex-col sm:flex-row items-center sm:items-baseline justify-between mb-12">
+          <h3 className="serif-display italic text-4xl sm:text-5xl text-[#f8f7f4] mb-4 sm:mb-0">
+            H &amp; B
+          </h3>
+          <button
+            onClick={onOpenBooking}
+            className="px-6 py-2.5 text-[0.72rem] uppercase tracking-[0.16em] font-bold text-[#1c1c1c] bg-[#f8f7f4] hover:bg-white transition-colors"
+          >
+            Secure Your Chair
+          </button>
         </div>
 
-        {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6e685d]">
+        {/* 3-Column Studio Grid matching Variation 3 */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 text-left gap-8 sm:gap-14">
           <div>
-            &copy; {new Date().getFullYear()} Heritage &amp; Blade Craft Barbershop. All rights reserved.
+            <span className="meta-tag text-[#f8f7f4]">Studio</span>
+            <p className="text-xs sm:text-[0.85rem] mt-3 leading-relaxed opacity-60">
+              418 St. Clair Ave, Suite 4<br />
+              Toronto / Midtown District
+            </p>
           </div>
-          <div className="flex items-center gap-6">
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
-            <span>Accessibility</span>
+
+          <div>
+            <span className="meta-tag text-[#f8f7f4]">Hours</span>
+            <p className="text-xs sm:text-[0.85rem] mt-3 leading-relaxed opacity-60">
+              Mon–Fri: 8:00 – 20:00<br />
+              Sat: 8:00 – 18:00<br />
+              Sun: 10:00 – 17:00
+            </p>
+          </div>
+
+          <div>
+            <span className="meta-tag text-[#f8f7f4]">Direct</span>
+            <p className="text-xs sm:text-[0.85rem] mt-3 leading-relaxed opacity-60">
+              (555) 234-5678<br />
+              appointments@heritageblade.com
+            </p>
           </div>
         </div>
+
+        {/* Editorial Divider */}
+        <div className="editorial-line" style={{ background: '#ffffff', opacity: 0.12 }} />
+
+        <div className="flex flex-col sm:flex-row items-center justify-between text-[0.68rem] opacity-50 tracking-wider uppercase font-medium">
+          <p>© {new Date().getFullYear()} HERITAGE &amp; BLADE CRAFT BARBERSHOP</p>
+          <div className="flex gap-6 mt-3 sm:mt-0">
+            <span>CHAIR ETIQUETTE</span>
+            <span>PRIVACY NOTICE</span>
+          </div>
+        </div>
+
       </div>
     </footer>
   );

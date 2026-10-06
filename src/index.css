@@ -2,17 +2,23 @@
 
 @layer base {
   :root {
+    --bg: #f8f7f4;
+    --ink: #1c1c1c;
+    --accent: #876d3e;
+    --surface: #ffffff;
+    --ink-soft: rgba(28, 28, 28, 0.6);
     --font-serif: 'Cormorant Garamond', Georgia, serif;
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: #0d0f12;
-    color: #ede7de;
+    background-color: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, .font-serif-display {
+  h1, h2, h3, h4, .font-serif-display, .serif-display {
     font-family: var(--font-serif);
   }
 }
@@ -21,18 +27,86 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom scrollbar */
+.editorial-line {
+  height: 1px;
+  background: var(--ink);
+  width: 100%;
+  margin: 2.5rem 0;
+  opacity: 0.15;
+}
+
+.meta-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.serif-display {
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 1.08;
+  font-weight: 600;
+}
+
+.btn-elegant {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 1rem 2.5rem;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-elegant:hover {
+  background: #2f2f2f;
+  transform: translateY(-1px);
+}
+
+.price-circle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  color: var(--accent);
+  line-height: 1;
+  display: block;
+}
+
+.review-bubble {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.65rem;
+  line-height: 1.45;
+  color: rgba(28, 28, 28, 0.75);
+}
+
+.img-wrap {
+  position: relative;
+  padding: 1.75rem;
+  background: var(--surface);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Custom scrollbar for elegant light aesthetic */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #111317;
+  background: #f1efe9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2e37;
+  background: #d4cebe;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #c59b27;
+  background: #876d3e;
 }

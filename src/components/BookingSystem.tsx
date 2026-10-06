@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   X,
   Check,
-  Calendar as CalendarIcon,
   Clock,
   User,
   Scissors,
@@ -11,7 +10,6 @@ import {
   Sparkles,
   Phone,
   Mail,
-  FileText,
   AlertCircle,
   Copy,
   Download,
@@ -65,7 +63,6 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
       dayName: d.toLocaleDateString('en-US', { weekday: 'short' }),
       dayNumber: d.getDate(),
       monthName: d.toLocaleDateString('en-US', { month: 'short' }),
-      isSunday: d.getDay() === 0,
     };
   });
 
@@ -83,7 +80,6 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
   const [confirmedAppointment, setConfirmedAppointment] = useState<Appointment | null>(null);
   const [copiedCode, setCopiedCode] = useState(false);
 
-  // Update preselected props when modal opens or props change
   useEffect(() => {
     if (preselectedServiceId) {
       const match = SERVICES.find((s) => s.id === preselectedServiceId);
@@ -98,7 +94,6 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
     }
   }, [preselectedServiceId, preselectedBarberId, isOpen]);
 
-  // Reset step if closed and reopen
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
@@ -110,7 +105,6 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Addon toggling
   const toggleAddon = (addon: BarberAddon) => {
     if (selectedAddons.some((a) => a.id === addon.id)) {
       setSelectedAddons(selectedAddons.filter((a) => a.id !== addon.id));
@@ -119,24 +113,22 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
     }
   };
 
-  // Calculations
   const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
   const totalCost = selectedService.price + addonsTotal;
   const totalDuration =
     selectedService.durationMinutes +
     selectedAddons.reduce((sum, a) => sum + a.durationMinutes, 0);
 
-  // Validate step 4
   const validateContactForm = () => {
     const errors: { [key: string]: string } = {};
     if (!clientName.trim()) {
-      errors.name = 'Please enter your full name';
+      errors.name = 'Full name is required';
     }
     if (!clientPhone.trim() || clientPhone.replace(/\D/g, '').length < 8) {
-      errors.phone = 'Valid phone number is required for SMS confirmation';
+      errors.phone = 'Valid phone number required for SMS update';
     }
     if (!clientEmail.trim() || !clientEmail.includes('@') || !clientEmail.includes('.')) {
-      errors.email = 'Valid email address is required for calendar invite';
+      errors.email = 'Valid email address required';
     }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -190,9 +182,9 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
 VERSION:2.0
 PRODID:-//Heritage and Blade Barbershop//EN
 BEGIN:VEVENT
-SUMMARY:${confirmedAppointment.service.name} - Heritage & Blade Barbershop
+SUMMARY:${confirmedAppointment.service.name} - Heritage & Blade
 DESCRIPTION:Barber: ${confirmedAppointment.barber.name}\\nService: ${confirmedAppointment.service.name}\\nTotal: $${confirmedAppointment.totalPrice}\\nBooking Reference: ${confirmedAppointment.bookingRef}
-LOCATION:Heritage & Blade Barbershop, 418 St. Clair Ave
+LOCATION:Heritage & Blade, 418 St. Clair Ave, Suite 4
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
@@ -207,47 +199,37 @@ END:VCALENDAR`;
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-3xl max-h-[92vh] flex flex-col bg-[#12141a] border border-white/15 rounded-lg shadow-2xl overflow-hidden text-[#ede7de]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-3xl max-h-[92vh] flex flex-col bg-[#f8f7f4] border border-[#1c1c1c]/15 shadow-2xl overflow-hidden text-[#1c1c1c]">
         
         {/* Modal Header */}
-        <div className="px-6 py-4 bg-[#161922] border-b border-white/10 flex items-center justify-between shrink-0">
+        <div className="px-6 py-4 bg-white border-b border-[#1c1c1c]/10 flex items-center justify-between shrink-0">
           <div>
-            <h2 className="text-xl sm:text-2xl font-serif font-semibold text-[#f8f5ee] tracking-wide">
-              {step === 5 ? 'Appointment Confirmed' : 'Reserve Your Chair'}
+            <span className="meta-tag">
+              {step === 5 ? 'Confirmed' : `Step ${step} of 4`}
+            </span>
+            <h2 className="serif-display text-2xl sm:text-3xl text-[#1c1c1c] mt-0.5">
+              {step === 5 ? 'Chair Reserved' : 'Secure Your Chair'}
             </h2>
-            <div className="text-xs text-[#9d9688] mt-0.5 flex items-center gap-2">
-              <span>Heritage &amp; Blade</span>
-              <span aria-hidden="true">·</span>
-              <span>418 St. Clair Ave</span>
-              {step < 5 && (
-                <>
-                  <span aria-hidden="true">·</span>
-                  <span className="text-[#c59b27]">Step {step} of 4</span>
-                </>
-              )}
-            </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-[#9d9688] hover:text-[#f8f5ee] hover:bg-white/5 rounded transition-colors"
+            className="p-1.5 text-[#1c1c1c]/60 hover:text-[#1c1c1c] hover:bg-black/5 rounded transition-colors"
             aria-label="Close booking modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Step Progress Bar (for Steps 1-4) */}
+        {/* Step Tabs */}
         {step < 5 && (
-          <div className="grid grid-cols-4 bg-[#0e1015] border-b border-white/10 text-xs font-medium text-center">
+          <div className="grid grid-cols-4 bg-[#f1efe9] border-b border-[#1c1c1c]/10 text-[0.68rem] uppercase tracking-wider font-bold text-center">
             <button
               onClick={() => setStep(1)}
               className={`py-2.5 transition-colors border-b-2 ${
                 step === 1
-                  ? 'border-[#c59b27] text-[#c59b27] bg-[#161922]'
-                  : step > 1
-                  ? 'border-transparent text-[#e4decb]'
-                  : 'border-transparent text-[#6e685d]'
+                  ? 'border-[#876d3e] text-[#1c1c1c] bg-white'
+                  : 'border-transparent text-[#1c1c1c]/60'
               }`}
             >
               1. Service
@@ -256,10 +238,8 @@ END:VCALENDAR`;
               onClick={() => setStep(2)}
               className={`py-2.5 transition-colors border-b-2 ${
                 step === 2
-                  ? 'border-[#c59b27] text-[#c59b27] bg-[#161922]'
-                  : step > 2
-                  ? 'border-transparent text-[#e4decb]'
-                  : 'border-transparent text-[#6e685d]'
+                  ? 'border-[#876d3e] text-[#1c1c1c] bg-white'
+                  : 'border-transparent text-[#1c1c1c]/60'
               }`}
             >
               2. Barber
@@ -269,10 +249,8 @@ END:VCALENDAR`;
               disabled={step < 2}
               className={`py-2.5 transition-colors border-b-2 ${
                 step === 3
-                  ? 'border-[#c59b27] text-[#c59b27] bg-[#161922]'
-                  : step > 3
-                  ? 'border-transparent text-[#e4decb]'
-                  : 'border-transparent text-[#6e685d]'
+                  ? 'border-[#876d3e] text-[#1c1c1c] bg-white'
+                  : 'border-transparent text-[#1c1c1c]/60'
               }`}
             >
               3. Date &amp; Time
@@ -282,25 +260,25 @@ END:VCALENDAR`;
               disabled={step < 3}
               className={`py-2.5 transition-colors border-b-2 ${
                 step === 4
-                  ? 'border-[#c59b27] text-[#c59b27] bg-[#161922]'
-                  : 'border-transparent text-[#6e685d]'
+                  ? 'border-[#876d3e] text-[#1c1c1c] bg-white'
+                  : 'border-transparent text-[#1c1c1c]/60'
               }`}
             >
-              4. Client Details
+              4. Contact
             </button>
           </div>
         )}
 
-        {/* Body Content */}
+        {/* Modal Body */}
         <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
 
-          {/* STEP 1: Select Service & Addons */}
+          {/* STEP 1: Select Service */}
           {step === 1 && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-base font-semibold text-[#f8f5ee]">Select Primary Service</h3>
-                <p className="text-xs text-[#9d9688] mt-1">
-                  Every service includes consultation, nape shave, and precision styling finish.
+                <h3 className="serif-display text-xl text-[#1c1c1c]">Select Primary Treatment</h3>
+                <p className="text-xs text-[#1c1c1c]/60 mt-0.5">
+                  Every chair session includes tailored consultation, hot towel nape shave, and tonic finish.
                 </p>
               </div>
 
@@ -311,26 +289,24 @@ END:VCALENDAR`;
                     <div
                       key={srv.id}
                       onClick={() => setSelectedService(srv)}
-                      className={`p-4 rounded border cursor-pointer transition-all ${
+                      className={`p-4 bg-white border cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-[#c59b27] bg-[#1d212c] shadow-md ring-1 ring-[#c59b27]'
-                          : 'border-white/10 bg-[#151820] hover:border-white/20'
+                          ? 'border-[#876d3e] ring-2 ring-[#876d3e]/20 shadow-sm'
+                          : 'border-[#1c1c1c]/10 hover:border-[#1c1c1c]/30'
                       }`}
                     >
                       <div className="flex items-start justify-between">
-                        <div className="font-serif font-medium text-base text-[#f8f5ee]">
+                        <span className="serif-display font-semibold text-lg text-[#1c1c1c]">
                           {srv.name}
-                        </div>
-                        <div className="text-sm font-semibold text-[#c59b27] tabular-nums">
+                        </span>
+                        <span className="font-serif text-lg font-bold text-[#876d3e] tabular-nums">
                           ${srv.price}
-                        </div>
+                        </span>
                       </div>
-                      <div className="text-xs text-[#8c867a] mt-1 flex items-center gap-2">
-                        <span>{srv.durationMinutes} mins</span>
-                        <span aria-hidden="true">·</span>
-                        <span className="capitalize">{srv.category}</span>
+                      <div className="text-[0.68rem] uppercase tracking-wider text-[#1c1c1c]/50 font-bold mt-1">
+                        {srv.durationMinutes} MIN · {srv.category}
                       </div>
-                      <p className="text-xs text-[#b0a99c] mt-2 line-clamp-2">
+                      <p className="text-xs text-[#1c1c1c]/70 mt-2 line-clamp-2">
                         {srv.description}
                       </p>
                     </div>
@@ -338,15 +314,9 @@ END:VCALENDAR`;
                 })}
               </div>
 
-              {/* Addons enhancement block */}
-              <div className="pt-4 border-t border-white/10 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="text-sm font-semibold text-[#f8f5ee]">Service Enhancements (Optional)</h4>
-                    <p className="text-xs text-[#9d9688]">Enhance your session with artisanal treatments.</p>
-                  </div>
-                </div>
-
+              {/* Addons enhancement */}
+              <div className="pt-4 border-t border-[#1c1c1c]/10 space-y-3">
+                <span className="meta-tag">Optional Enhancements</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {ADDONS.map((addon) => {
                     const isChecked = selectedAddons.some((a) => a.id === addon.id);
@@ -354,23 +324,23 @@ END:VCALENDAR`;
                       <div
                         key={addon.id}
                         onClick={() => toggleAddon(addon)}
-                        className={`p-3 rounded border cursor-pointer transition-all flex items-center justify-between ${
+                        className={`p-3 bg-white border cursor-pointer transition-all flex items-center justify-between ${
                           isChecked
-                            ? 'border-[#c59b27] bg-[#1d212c]'
-                            : 'border-white/10 bg-[#151820] hover:border-white/20'
+                            ? 'border-[#876d3e] ring-1 ring-[#876d3e]'
+                            : 'border-[#1c1c1c]/10 hover:border-[#1c1c1c]/30'
                         }`}
                       >
                         <div className="pr-2">
-                          <div className="text-xs font-medium text-[#f8f5ee]">{addon.name}</div>
-                          <div className="text-[11px] text-[#8c867a]">+{addon.durationMinutes}m · {addon.description}</div>
+                          <div className="text-xs font-semibold text-[#1c1c1c]">{addon.name}</div>
+                          <div className="text-[11px] text-[#1c1c1c]/60">+{addon.durationMinutes}m · {addon.description}</div>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="text-xs font-semibold text-[#c59b27] tabular-nums">+${addon.price}</span>
+                          <span className="font-serif font-bold text-[#876d3e] text-sm tabular-nums">+${addon.price}</span>
                           <div
                             className={`w-4 h-4 rounded border flex items-center justify-center ${
                               isChecked
-                                ? 'bg-[#c59b27] border-[#c59b27] text-[#0d0f12]'
-                                : 'border-white/30'
+                                ? 'bg-[#876d3e] border-[#876d3e] text-white'
+                                : 'border-[#1c1c1c]/30'
                             }`}
                           >
                             {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -388,39 +358,39 @@ END:VCALENDAR`;
           {step === 2 && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-base font-semibold text-[#f8f5ee]">Select Master Barber</h3>
-                <p className="text-xs text-[#9d9688] mt-1">
-                  Choose a specialist or opt for the earliest available chair.
+                <h3 className="serif-display text-xl text-[#1c1c1c]">Select Master Barber</h3>
+                <p className="text-xs text-[#1c1c1c]/60 mt-0.5">
+                  Choose your dedicated craftsman or opt for the earliest open chair.
                 </p>
               </div>
 
-              {/* Any available barber toggle */}
               <div
                 onClick={() => {
                   setAnyBarber(true);
                   setSelectedBarber(null);
                 }}
-                className={`p-4 rounded border cursor-pointer transition-all flex items-center justify-between ${
+                className={`p-4 bg-white border cursor-pointer transition-all flex items-center justify-between ${
                   anyBarber
-                    ? 'border-[#c59b27] bg-[#1d212c] ring-1 ring-[#c59b27]'
-                    : 'border-white/10 bg-[#151820] hover:border-white/20'
+                    ? 'border-[#876d3e] ring-2 ring-[#876d3e]/20'
+                    : 'border-[#1c1c1c]/10 hover:border-[#1c1c1c]/30'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#202532] flex items-center justify-center text-[#c59b27]">
+                  <div className="w-10 h-10 rounded-full bg-[#f8f7f4] flex items-center justify-center text-[#876d3e]">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-[#f8f5ee]">First Available Craftsman</div>
-                    <div className="text-xs text-[#9d9688]">Recommended for optimal time slot flexibility</div>
+                    <div className="serif-display font-semibold text-lg text-[#1c1c1c]">
+                      First Available Craftsman
+                    </div>
+                    <div className="text-xs text-[#1c1c1c]/60">Recommended for optimal schedule flexibility</div>
                   </div>
                 </div>
-                <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${anyBarber ? 'border-[#c59b27] bg-[#c59b27]' : 'border-white/30'}`}>
-                  {anyBarber && <div className="w-1.5 h-1.5 rounded-full bg-[#0d0f12]" />}
+                <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${anyBarber ? 'border-[#876d3e] bg-[#876d3e]' : 'border-[#1c1c1c]/30'}`}>
+                  {anyBarber && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                 </div>
               </div>
 
-              {/* Master Barber Cards */}
               <div className="space-y-3">
                 {BARBERS.map((barber) => {
                   const isSelected = !anyBarber && selectedBarber?.id === barber.id;
@@ -431,38 +401,38 @@ END:VCALENDAR`;
                         setAnyBarber(false);
                         setSelectedBarber(barber);
                       }}
-                      className={`p-4 rounded border cursor-pointer transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                      className={`p-4 bg-white border cursor-pointer transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                         isSelected
-                          ? 'border-[#c59b27] bg-[#1d212c] ring-1 ring-[#c59b27]'
-                          : 'border-white/10 bg-[#151820] hover:border-white/20'
+                          ? 'border-[#876d3e] ring-2 ring-[#876d3e]/20'
+                          : 'border-[#1c1c1c]/10 hover:border-[#1c1c1c]/30'
                       }`}
                     >
                       <div className="flex items-center gap-3.5">
                         <img
                           src={barber.avatarUrl}
                           alt={barber.name}
-                          className="w-14 h-14 rounded object-cover border border-white/15 shrink-0"
+                          className="w-14 h-14 object-cover border border-[#1c1c1c]/10 shrink-0"
                           referrerPolicy="no-referrer"
                         />
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-serif font-medium text-base text-[#f8f5ee]">{barber.name}</span>
-                            <span className="text-[11px] text-[#c59b27] border border-[#c59b27]/30 px-1.5 py-0.5 rounded">
+                            <span className="serif-display font-semibold text-lg text-[#1c1c1c]">{barber.name}</span>
+                            <span className="text-[10px] uppercase font-bold text-[#876d3e] border border-[#876d3e]/30 px-1.5 py-0.5">
                               {barber.badge}
                             </span>
                           </div>
-                          <div className="text-xs text-[#8c867a] mt-0.5">
+                          <div className="text-xs text-[#1c1c1c]/60 mt-0.5">
                             <span>{barber.experienceYears} Years Exp</span>
                             <span className="mx-1.5">·</span>
-                            <span>{barber.rating}★ ({barber.reviewCount} reviews)</span>
+                            <span>{barber.rating}★ ({barber.reviewCount} cuts)</span>
                           </div>
-                          <div className="text-xs text-[#b5ae9f] mt-1">{barber.specialty}</div>
+                          <div className="text-xs text-[#1c1c1c]/80 mt-1">{barber.specialty}</div>
                         </div>
                       </div>
 
-                      <div className="text-right flex items-center sm:flex-col sm:items-end justify-between">
-                        <span className="text-xs text-[#8c867a]">Schedule</span>
-                        <span className="text-xs text-[#d6d0c2] font-medium">Mon - Sat</span>
+                      <div className="text-right">
+                        <span className="text-[0.68rem] uppercase tracking-wider text-[#1c1c1c]/50 font-bold">Chairs</span>
+                        <div className="text-xs text-[#1c1c1c] font-semibold">Mon – Sat</div>
                       </div>
                     </div>
                   );
@@ -475,18 +445,17 @@ END:VCALENDAR`;
           {step === 3 && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-base font-semibold text-[#f8f5ee]">Select Date &amp; Arrival Window</h3>
-                <p className="text-xs text-[#9d9688] mt-1">
-                  We maintain a punctual single-chair guarantee. Please arrive 5 minutes prior to appointment.
+                <h3 className="serif-display text-xl text-[#1c1c1c]">Select Date &amp; Window</h3>
+                <p className="text-xs text-[#1c1c1c]/60 mt-0.5">
+                  We guarantee single-chair arrival punctuality.
                 </p>
               </div>
 
-              {/* 14-day horizontal strip */}
               <div>
-                <label className="block text-xs uppercase tracking-wider text-[#8c867a] mb-2 font-medium">
+                <label className="block text-[0.68rem] uppercase tracking-wider text-[#876d3e] mb-2 font-bold">
                   Select Day
                 </label>
-                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+                <div className="flex gap-2 overflow-x-auto pb-2">
                   {availableDates.map((item) => {
                     const isSelected = selectedDate === item.dateStr;
                     return (
@@ -495,12 +464,12 @@ END:VCALENDAR`;
                         onClick={() => setSelectedDate(item.dateStr)}
                         className={`flex flex-col items-center justify-center p-3 rounded min-w-[70px] border transition-all ${
                           isSelected
-                            ? 'bg-[#c59b27] text-[#0d0f12] border-[#c59b27] font-semibold shadow-md'
-                            : 'bg-[#151820] text-[#c0bbb2] border-white/10 hover:border-white/20'
+                            ? 'bg-[#1c1c1c] text-[#f8f7f4] border-[#1c1c1c] font-semibold shadow-md'
+                            : 'bg-white text-[#1c1c1c]/70 border-[#1c1c1c]/10 hover:border-[#1c1c1c]/30'
                         }`}
                       >
-                        <span className="text-[11px] uppercase">{item.dayName}</span>
-                        <span className="text-lg font-bold tabular-nums">{item.dayNumber}</span>
+                        <span className="text-[10px] uppercase font-bold">{item.dayName}</span>
+                        <span className="serif-display text-xl font-bold tabular-nums">{item.dayNumber}</span>
                         <span className="text-[10px] opacity-75">{item.monthName}</span>
                       </button>
                     );
@@ -508,10 +477,9 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              {/* Time slots */}
               <div>
-                <label className="block text-xs uppercase tracking-wider text-[#8c867a] mb-2 font-medium">
-                  Available Chairs on {selectedDate}
+                <label className="block text-[0.68rem] uppercase tracking-wider text-[#876d3e] mb-2 font-bold">
+                  Chair Arrival Times ({selectedDate})
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {TIME_SLOTS.map((time) => {
@@ -520,10 +488,10 @@ END:VCALENDAR`;
                       <button
                         key={time}
                         onClick={() => setSelectedTimeSlot(time)}
-                        className={`py-2.5 px-3 rounded text-xs font-medium border text-center transition-all tabular-nums ${
+                        className={`py-2 px-3 text-xs font-semibold border text-center transition-all tabular-nums ${
                           isSelected
-                            ? 'bg-[#1e2330] border-[#c59b27] text-[#c59b27] ring-1 ring-[#c59b27]'
-                            : 'bg-[#151820] border-white/10 text-[#c0bbb2] hover:border-white/25 hover:text-[#f8f5ee]'
+                            ? 'bg-[#1c1c1c] text-white border-[#1c1c1c]'
+                            : 'bg-white border-[#1c1c1c]/15 text-[#1c1c1c]/80 hover:border-[#1c1c1c]'
                         }`}
                       >
                         {time}
@@ -533,45 +501,42 @@ END:VCALENDAR`;
                 </div>
               </div>
 
-              <div className="p-3 bg-[#161922] rounded border border-white/10 text-xs text-[#9d9688] flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#c59b27] shrink-0" />
+              <div className="p-3 bg-white border border-[#1c1c1c]/10 text-xs text-[#1c1c1c]/70 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#876d3e] shrink-0" />
                 <span>
-                  Expected chair duration: <strong className="text-[#f8f5ee]">{totalDuration} minutes</strong> including consultation and styling.
+                  Expected chair duration: <strong className="text-[#1c1c1c]">{totalDuration} minutes</strong> including consultation.
                 </span>
               </div>
             </div>
           )}
 
-          {/* STEP 4: Client Information */}
+          {/* STEP 4: Client Info */}
           {step === 4 && (
             <div className="space-y-6">
               <div>
-                <h3 className="text-base font-semibold text-[#f8f5ee]">Client Contact &amp; Preferences</h3>
-                <p className="text-xs text-[#9d9688] mt-1">
-                  We send an SMS confirmation and a downloadable calendar invite.
+                <h3 className="serif-display text-xl text-[#1c1c1c]">Patron Contact Details</h3>
+                <p className="text-xs text-[#1c1c1c]/60 mt-0.5">
+                  We send an SMS confirmation code and an appointment pass.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs text-[#c0bbb2] mb-1 font-medium">
-                    Full Name <span className="text-rose-400">*</span>
+                  <label className="block text-xs font-semibold text-[#1c1c1c] mb-1">
+                    Full Name *
                   </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={clientName}
-                      onChange={(e) => {
-                        setClientName(e.target.value);
-                        if (formErrors.name) setFormErrors({ ...formErrors, name: '' });
-                      }}
-                      placeholder="e.g. Thomas Shelby"
-                      className="w-full bg-[#151820] border border-white/15 rounded px-3.5 py-2.5 text-sm text-[#f8f5ee] placeholder-[#6e685d] focus:outline-none focus:border-[#c59b27]"
-                    />
-                    <User className="w-4 h-4 text-[#6e685d] absolute right-3 top-3" />
-                  </div>
+                  <input
+                    type="text"
+                    value={clientName}
+                    onChange={(e) => {
+                      setClientName(e.target.value);
+                      if (formErrors.name) setFormErrors({ ...formErrors, name: '' });
+                    }}
+                    placeholder="e.g. Thomas Shelby"
+                    className="w-full bg-white border border-[#1c1c1c]/20 rounded px-3.5 py-2.5 text-sm text-[#1c1c1c] focus:outline-none focus:border-[#876d3e]"
+                  />
                   {formErrors.name && (
-                    <p className="text-xs text-rose-400 mt-1 flex items-center gap-1">
+                    <p className="text-xs text-rose-600 mt-1 flex items-center gap-1">
                       <AlertCircle className="w-3 h-3" /> {formErrors.name}
                     </p>
                   )}
@@ -579,48 +544,42 @@ END:VCALENDAR`;
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs text-[#c0bbb2] mb-1 font-medium">
-                      Mobile Phone (for SMS) <span className="text-rose-400">*</span>
+                    <label className="block text-xs font-semibold text-[#1c1c1c] mb-1">
+                      Phone Number *
                     </label>
-                    <div className="relative">
-                      <input
-                        type="tel"
-                        value={clientPhone}
-                        onChange={(e) => {
-                          setClientPhone(e.target.value);
-                          if (formErrors.phone) setFormErrors({ ...formErrors, phone: '' });
-                        }}
-                        placeholder="e.g. (555) 234-5678"
-                        className="w-full bg-[#151820] border border-white/15 rounded px-3.5 py-2.5 text-sm text-[#f8f5ee] placeholder-[#6e685d] focus:outline-none focus:border-[#c59b27]"
-                      />
-                      <Phone className="w-4 h-4 text-[#6e685d] absolute right-3 top-3" />
-                    </div>
+                    <input
+                      type="tel"
+                      value={clientPhone}
+                      onChange={(e) => {
+                        setClientPhone(e.target.value);
+                        if (formErrors.phone) setFormErrors({ ...formErrors, phone: '' });
+                      }}
+                      placeholder="e.g. (555) 234-5678"
+                      className="w-full bg-white border border-[#1c1c1c]/20 rounded px-3.5 py-2.5 text-sm text-[#1c1c1c] focus:outline-none focus:border-[#876d3e]"
+                    />
                     {formErrors.phone && (
-                      <p className="text-xs text-rose-400 mt-1 flex items-center gap-1">
+                      <p className="text-xs text-rose-600 mt-1 flex items-center gap-1">
                         <AlertCircle className="w-3 h-3" /> {formErrors.phone}
                       </p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-xs text-[#c0bbb2] mb-1 font-medium">
-                      Email Address <span className="text-rose-400">*</span>
+                    <label className="block text-xs font-semibold text-[#1c1c1c] mb-1">
+                      Email Address *
                     </label>
-                    <div className="relative">
-                      <input
-                        type="email"
-                        value={clientEmail}
-                        onChange={(e) => {
-                          setClientEmail(e.target.value);
-                          if (formErrors.email) setFormErrors({ ...formErrors, email: '' });
-                        }}
-                        placeholder="e.g. thomas@example.com"
-                        className="w-full bg-[#151820] border border-white/15 rounded px-3.5 py-2.5 text-sm text-[#f8f5ee] placeholder-[#6e685d] focus:outline-none focus:border-[#c59b27]"
-                      />
-                      <Mail className="w-4 h-4 text-[#6e685d] absolute right-3 top-3" />
-                    </div>
+                    <input
+                      type="email"
+                      value={clientEmail}
+                      onChange={(e) => {
+                        setClientEmail(e.target.value);
+                        if (formErrors.email) setFormErrors({ ...formErrors, email: '' });
+                      }}
+                      placeholder="e.g. thomas@example.com"
+                      className="w-full bg-white border border-[#1c1c1c]/20 rounded px-3.5 py-2.5 text-sm text-[#1c1c1c] focus:outline-none focus:border-[#876d3e]"
+                    />
                     {formErrors.email && (
-                      <p className="text-xs text-rose-400 mt-1 flex items-center gap-1">
+                      <p className="text-xs text-rose-600 mt-1 flex items-center gap-1">
                         <AlertCircle className="w-3 h-3" /> {formErrors.email}
                       </p>
                     )}
@@ -628,96 +587,95 @@ END:VCALENDAR`;
                 </div>
 
                 <div>
-                  <label className="block text-xs text-[#c0bbb2] mb-1 font-medium">
-                    Notes or Style Requests (Optional)
+                  <label className="block text-xs font-semibold text-[#1c1c1c] mb-1">
+                    Style Notes or Requests (Optional)
                   </label>
                   <textarea
                     rows={2}
                     value={clientNotes}
                     onChange={(e) => setClientNotes(e.target.value)}
                     placeholder="e.g. Prefer scissors on top, skin fade on sides, sensitive skin around neck."
-                    className="w-full bg-[#151820] border border-white/15 rounded px-3.5 py-2 text-sm text-[#f8f5ee] placeholder-[#6e685d] focus:outline-none focus:border-[#c59b27]"
+                    className="w-full bg-white border border-[#1c1c1c]/20 rounded px-3.5 py-2 text-sm text-[#1c1c1c] focus:outline-none focus:border-[#876d3e]"
                   />
                 </div>
               </div>
 
-              {/* Summary review box */}
-              <div className="bg-[#161922] p-4 rounded border border-white/10 space-y-2 text-xs">
-                <div className="flex justify-between text-[#c0bbb2]">
+              {/* Cost review */}
+              <div className="bg-white p-4 border border-[#1c1c1c]/10 space-y-2 text-xs">
+                <div className="flex justify-between text-[#1c1c1c]/70">
                   <span>{selectedService.name}</span>
-                  <span className="tabular-nums font-medium text-[#f8f5ee]">${selectedService.price}</span>
+                  <span className="font-serif font-bold text-sm text-[#1c1c1c] tabular-nums">${selectedService.price}</span>
                 </div>
                 {selectedAddons.map((a) => (
-                  <div key={a.id} className="flex justify-between text-[#8c867a]">
+                  <div key={a.id} className="flex justify-between text-[#1c1c1c]/60">
                     <span>+ {a.name}</span>
                     <span className="tabular-nums">+${a.price}</span>
                   </div>
                 ))}
-                <div className="border-t border-white/10 pt-2 flex justify-between items-center text-sm font-semibold">
-                  <span className="text-[#f8f5ee]">Due in Chair (Cash / Card)</span>
-                  <span className="text-[#c59b27] tabular-nums text-base">${totalCost}</span>
+                <div className="border-t border-[#1c1c1c]/10 pt-2 flex justify-between items-center text-sm font-semibold">
+                  <span className="text-[#1c1c1c]">Total Payable in Chair</span>
+                  <span className="serif-display text-xl text-[#876d3e] font-bold tabular-nums">${totalCost}</span>
                 </div>
               </div>
             </div>
           )}
 
-          {/* STEP 5: Digital Appointment Pass & Confirmation */}
+          {/* STEP 5: Confirmed Pass */}
           {step === 5 && confirmedAppointment && (
             <div className="space-y-6 text-center py-2">
-              <div className="w-14 h-14 mx-auto rounded-full bg-[#c59b27]/10 border border-[#c59b27] flex items-center justify-center text-[#c59b27]">
+              <div className="w-14 h-14 mx-auto rounded-full bg-[#876d3e]/10 border border-[#876d3e] flex items-center justify-center text-[#876d3e]">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
 
               <div>
-                <h3 className="text-2xl font-serif font-bold text-[#f8f5ee]">
-                  Chair Reserved Successfully
+                <h3 className="serif-display text-3xl font-bold text-[#1c1c1c]">
+                  Chair Reserved
                 </h3>
-                <p className="text-xs text-[#9d9688] mt-1">
+                <p className="text-xs text-[#1c1c1c]/60 mt-1">
                   We look forward to welcoming you, {confirmedAppointment.clientName}.
                 </p>
               </div>
 
               {/* Pass Card */}
-              <div className="max-w-md mx-auto bg-[#171a23] border border-white/15 rounded-lg p-5 text-left space-y-4 shadow-xl">
-                <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="max-w-md mx-auto bg-white border border-[#1c1c1c]/15 p-6 text-left space-y-4 shadow-xl">
+                <div className="flex items-center justify-between pb-3 border-b border-[#1c1c1c]/10">
                   <div>
-                    <span className="text-[11px] uppercase tracking-wider text-[#8c867a]">Booking Reference</span>
-                    <div className="text-xl font-bold font-mono text-[#c59b27] tracking-widest">
+                    <span className="meta-tag">Booking Reference</span>
+                    <div className="serif-display text-2xl font-bold text-[#876d3e] tracking-widest">
                       {confirmedAppointment.bookingRef}
                     </div>
                   </div>
                   <button
                     onClick={handleCopyCode}
-                    className="flex items-center gap-1.5 px-2.5 py-1 text-xs border border-white/15 rounded hover:bg-white/5 text-[#c0bbb2]"
-                    title="Copy booking details"
+                    className="flex items-center gap-1.5 px-2.5 py-1 text-xs border border-[#1c1c1c]/20 hover:border-[#1c1c1c] text-[#1c1c1c]"
                   >
-                    {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copiedCode ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 text-xs">
                   <div>
-                    <div className="text-[#8c867a]">Date &amp; Arrival</div>
-                    <div className="font-semibold text-[#f8f5ee] mt-0.5">{confirmedAppointment.date}</div>
-                    <div className="text-[#c59b27] font-medium">{confirmedAppointment.timeSlot}</div>
+                    <div className="text-[#1c1c1c]/50">Date &amp; Arrival</div>
+                    <div className="font-semibold text-[#1c1c1c] mt-0.5">{confirmedAppointment.date}</div>
+                    <div className="text-[#876d3e] font-bold">{confirmedAppointment.timeSlot}</div>
                   </div>
                   <div>
-                    <div className="text-[#8c867a]">Master Craftsman</div>
-                    <div className="font-semibold text-[#f8f5ee] mt-0.5">{confirmedAppointment.barber.name}</div>
-                    <div className="text-[#8c867a]">{confirmedAppointment.barber.title}</div>
+                    <div className="text-[#1c1c1c]/50">Master Barber</div>
+                    <div className="font-semibold text-[#1c1c1c] mt-0.5">{confirmedAppointment.barber.name}</div>
+                    <div className="text-[#1c1c1c]/60">{confirmedAppointment.barber.title}</div>
                   </div>
                 </div>
 
-                <div className="text-xs pt-2 border-t border-white/10">
-                  <div className="text-[#8c867a]">Selected Service:</div>
-                  <div className="text-[#f8f5ee] font-medium">{confirmedAppointment.service.name}</div>
+                <div className="text-xs pt-3 border-t border-[#1c1c1c]/10">
+                  <div className="text-[#1c1c1c]/50">Treatment:</div>
+                  <div className="text-[#1c1c1c] font-semibold">{confirmedAppointment.service.name}</div>
                   {confirmedAppointment.addons.length > 0 && (
-                    <div className="text-[#8c867a] mt-0.5">
+                    <div className="text-[#1c1c1c]/60 mt-0.5">
                       + {confirmedAppointment.addons.map((a) => a.name).join(', ')}
                     </div>
                   )}
-                  <div className="mt-2 text-right text-sm font-semibold text-[#c59b27] tabular-nums">
+                  <div className="mt-2 text-right serif-display text-xl font-bold text-[#876d3e] tabular-nums">
                     Total: ${confirmedAppointment.totalPrice}
                   </div>
                 </div>
@@ -727,14 +685,14 @@ END:VCALENDAR`;
               <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                 <button
                   onClick={handleDownloadCalendar}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-[#f8f5ee] bg-white/10 hover:bg-white/15 rounded border border-white/10 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider font-bold text-[#1c1c1c] bg-white border border-[#1c1c1c]/20 hover:border-[#1c1c1c] transition-colors"
                 >
-                  <Download className="w-3.5 h-3.5 text-[#c59b27]" />
-                  <span>Download .ICS Calendar Event</span>
+                  <Download className="w-3.5 h-3.5 text-[#876d3e]" />
+                  <span>Download .ICS Calendar Pass</span>
                 </button>
                 <button
                   onClick={onClose}
-                  className="px-6 py-2.5 text-xs font-semibold text-[#0d0f12] bg-[#c59b27] hover:bg-[#d8ab34] rounded transition-colors"
+                  className="btn-elegant px-6 py-2.5 text-[0.7rem]"
                 >
                   Done
                 </button>
@@ -746,26 +704,26 @@ END:VCALENDAR`;
 
         {/* Modal Bottom Bar Navigation (Steps 1-4) */}
         {step < 5 && (
-          <div className="px-6 py-4 bg-[#161922] border-t border-white/10 flex items-center justify-between shrink-0">
+          <div className="px-6 py-4 bg-white border-t border-[#1c1c1c]/10 flex items-center justify-between shrink-0">
             {step > 1 ? (
               <button
                 onClick={() => setStep((step - 1) as any)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-[#c0bbb2] hover:text-[#f8f5ee] transition-colors"
+                className="inline-flex items-center gap-1 text-xs uppercase tracking-wider font-bold text-[#1c1c1c]/70 hover:text-[#1c1c1c]"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Back</span>
               </button>
             ) : (
-              <div className="text-xs text-[#8c867a]">
-                Selected: <span className="text-[#f8f5ee] font-medium">{selectedService.name}</span> (${totalCost})
+              <div className="text-xs text-[#1c1c1c]/60">
+                Selected: <strong className="text-[#1c1c1c]">{selectedService.name}</strong> (${totalCost})
               </div>
             )}
 
-            <div className="flex items-center gap-3">
+            <div>
               {step < 4 ? (
                 <button
                   onClick={() => setStep((step + 1) as any)}
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-semibold text-[#0d0f12] bg-[#c59b27] hover:bg-[#d8ab34] rounded transition-colors tracking-wide"
+                  className="btn-elegant px-5 py-2.5 text-[0.7rem]"
                 >
                   <span>Continue</span>
                   <ChevronRight className="w-4 h-4" />
@@ -773,7 +731,7 @@ END:VCALENDAR`;
               ) : (
                 <button
                   onClick={handleFinalizeBooking}
-                  className="inline-flex items-center gap-1.5 px-6 py-2.5 text-xs font-semibold text-[#0d0f12] bg-[#c59b27] hover:bg-[#d8ab34] rounded transition-colors tracking-wide"
+                  className="btn-elegant px-6 py-2.5 text-[0.7rem]"
                 >
                   <span>Confirm Reservation (${totalCost})</span>
                 </button>

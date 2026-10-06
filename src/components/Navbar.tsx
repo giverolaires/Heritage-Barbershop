@@ -24,78 +24,79 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0d0f12]/95 backdrop-blur-md border-b border-white/10 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Zone 1: Brand Wordmark (Single text element in display face, no pills/subtitles) */}
+    <header className="sticky top-0 z-40 bg-[#f8f7f4]/95 backdrop-blur-md border-b border-[#1c1c1c]/10 transition-colors">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-8 py-5 flex items-center justify-between">
+        
+        {/* Logo in Cormorant Garamond italic */}
         <a
           href="#"
           onClick={(e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="text-2xl sm:text-3xl font-serif tracking-wider font-semibold text-[#f4efe6] hover:text-[#c59b27] transition-colors whitespace-nowrap"
+          className="font-serif italic text-3xl sm:text-4xl text-[#1c1c1c] hover:text-[#876d3e] transition-colors tracking-tight whitespace-nowrap"
         >
-          HERITAGE &amp; BLADE
+          Heritage &amp; Blade
         </a>
 
-        {/* Zone 2: Clean 4-6 text navigation links */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#c0bbb2]">
+        {/* Editorial Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8 text-[0.75rem] uppercase tracking-[0.14em] font-bold text-[#1c1c1c]/70">
           <button
             onClick={() => scrollTo('services')}
-            className="hover:text-[#f4efe6] transition-colors whitespace-nowrap"
+            className="hover:text-[#1c1c1c] transition-colors whitespace-nowrap"
           >
-            Services &amp; Pricing
+            The Menu
           </button>
           <button
             onClick={() => scrollTo('gallery')}
-            className="hover:text-[#f4efe6] transition-colors whitespace-nowrap"
+            className="hover:text-[#1c1c1c] transition-colors whitespace-nowrap"
           >
-            Haircut Gallery
+            The Portfolio
           </button>
           <button
             onClick={() => scrollTo('barbers')}
-            className="hover:text-[#f4efe6] transition-colors whitespace-nowrap"
+            className="hover:text-[#1c1c1c] transition-colors whitespace-nowrap"
           >
-            Master Barbers
+            The Team
           </button>
           <button
             onClick={() => scrollTo('social-feed')}
-            className="hover:text-[#f4efe6] transition-colors whitespace-nowrap"
+            className="hover:text-[#1c1c1c] transition-colors whitespace-nowrap"
           >
             Client Feed
           </button>
           <button
-            onClick={() => scrollTo('testimonials')}
-            className="hover:text-[#f4efe6] transition-colors whitespace-nowrap"
+            onClick={() => scrollTo('reviews-quote')}
+            className="hover:text-[#1c1c1c] transition-colors whitespace-nowrap"
           >
             Reviews
           </button>
         </nav>
 
-        {/* Zone 3: 1-2 primary actions */}
+        {/* Primary Action Button */}
         <div className="flex items-center gap-3">
           {confirmedCount > 0 && (
             <button
               onClick={onOpenMyAppointments}
-              className="hidden sm:inline-flex items-center gap-2 px-3 py-2 text-xs font-medium text-[#e4decb] border border-white/15 rounded-md hover:bg-white/5 transition-colors whitespace-nowrap"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#1c1c1c] bg-white border border-[#1c1c1c]/15 hover:border-[#1c1c1c]/40 transition-colors whitespace-nowrap shadow-sm"
               title="View your booked appointments"
             >
-              <Calendar className="w-3.5 h-3.5 text-[#c59b27]" />
+              <Calendar className="w-3.5 h-3.5 text-[#876d3e]" />
               <span>Bookings ({confirmedCount})</span>
             </button>
           )}
 
           <button
             onClick={onOpenBooking}
-            className="px-4 sm:px-5 py-2.5 text-xs sm:text-sm font-medium text-[#0d0f12] bg-[#c59b27] hover:bg-[#d8ab34] rounded-md transition-colors whitespace-nowrap shadow-sm font-semibold tracking-wide"
+            className="btn-elegant px-5 py-2.5 sm:px-6 sm:py-3 text-[0.7rem] whitespace-nowrap shadow-sm"
           >
-            Book Appointment
+            Secure Appointment
           </button>
 
           {/* Mobile menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-[#c0bbb2] hover:text-[#f4efe6] hover:bg-white/5 rounded-md transition-colors"
+            className="md:hidden p-2 text-[#1c1c1c] hover:bg-black/5 rounded transition-colors"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -105,49 +106,49 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#12151b] border-b border-white/10 px-6 py-5 space-y-4">
-          <nav className="flex flex-col space-y-3 text-base text-[#c0bbb2]">
+        <div className="md:hidden bg-[#ffffff] border-b border-[#1c1c1c]/10 px-6 py-6 space-y-4 shadow-lg">
+          <nav className="flex flex-col space-y-3.5 text-xs uppercase tracking-[0.15em] font-bold text-[#1c1c1c]/80">
             <button
               onClick={() => scrollTo('services')}
-              className="text-left py-1 hover:text-[#f4efe6] transition-colors"
+              className="text-left py-1 hover:text-[#876d3e] transition-colors"
             >
-              Services &amp; Pricing
+              The Menu
             </button>
             <button
               onClick={() => scrollTo('gallery')}
-              className="text-left py-1 hover:text-[#f4efe6] transition-colors"
+              className="text-left py-1 hover:text-[#876d3e] transition-colors"
             >
-              Haircut Gallery
+              The Portfolio
             </button>
             <button
               onClick={() => scrollTo('barbers')}
-              className="text-left py-1 hover:text-[#f4efe6] transition-colors"
+              className="text-left py-1 hover:text-[#876d3e] transition-colors"
             >
-              Master Barbers
+              The Team
             </button>
             <button
               onClick={() => scrollTo('social-feed')}
-              className="text-left py-1 hover:text-[#f4efe6] transition-colors"
+              className="text-left py-1 hover:text-[#876d3e] transition-colors"
             >
-              Client Feed &amp; Updates
+              Client Feed
             </button>
             <button
-              onClick={() => scrollTo('testimonials')}
-              className="text-left py-1 hover:text-[#f4efe6] transition-colors"
+              onClick={() => scrollTo('reviews-quote')}
+              className="text-left py-1 hover:text-[#876d3e] transition-colors"
             >
-              Verified Reviews
+              Reviews
             </button>
           </nav>
-          <div className="pt-3 border-t border-white/10 flex flex-col gap-2.5">
+          <div className="pt-4 border-t border-[#1c1c1c]/10 flex flex-col gap-2.5">
             {confirmedCount > 0 && (
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenMyAppointments();
                 }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm text-[#e4decb] border border-white/15 rounded-md"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-[#1c1c1c] bg-[#f8f7f4] border border-[#1c1c1c]/15"
               >
-                <Calendar className="w-4 h-4 text-[#c59b27]" />
+                <Calendar className="w-4 h-4 text-[#876d3e]" />
                 <span>My Appointments ({confirmedCount})</span>
               </button>
             )}
@@ -156,10 +157,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onOpenBooking();
               }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-[#0d0f12] bg-[#c59b27] rounded-md"
+              className="btn-elegant w-full py-3"
             >
-              <Scissors className="w-4 h-4" />
-              <span>Book Appointment Now</span>
+              <Scissors className="w-3.5 h-3.5" />
+              <span>Secure Appointment</span>
             </button>
           </div>
         </div>

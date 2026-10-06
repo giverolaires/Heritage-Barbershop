@@ -107,7 +107,7 @@ export default function App() {
   const confirmedCount = appointments.filter((a) => a.status === 'confirmed').length;
 
   return (
-    <div className="min-h-screen bg-[#0d0f12] text-[#ede7de] selection:bg-[#c59b27] selection:text-[#0d0f12] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#f8f7f4] text-[#1c1c1c] selection:bg-[#876d3e] selection:text-white flex flex-col font-sans">
       {/* Top Navbar */}
       <Navbar
         onOpenBooking={() => handleOpenBooking()}
@@ -167,8 +167,8 @@ export default function App() {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#161a24] border border-[#c59b27] text-[#f8f5ee] px-4 py-3 rounded-lg shadow-2xl flex items-center gap-3 text-xs animate-slide-up">
-          <CheckCircle2 className="w-4 h-4 text-[#c59b27] shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 bg-[#1c1c1c] border border-[#876d3e] text-[#f8f7f4] px-4 py-3 rounded shadow-2xl flex items-center gap-3 text-xs animate-slide-up">
+          <CheckCircle2 className="w-4 h-4 text-[#876d3e] shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}

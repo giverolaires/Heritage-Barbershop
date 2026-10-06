@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Scissors, Sparkles, ArrowRight, ShieldCheck, Clock } from 'lucide-react';
+import { Check, Scissors, Clock, Sparkles } from 'lucide-react';
 import { SERVICES, ADDONS, BarberService } from '../data/barbershopData';
 
 interface PricingSectionProps {
@@ -15,71 +15,67 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectServiceT
   });
 
   return (
-    <section id="services" className="py-20 bg-[#0f1117] border-b border-white/10 scroll-mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" className="py-20 bg-[#f8f7f4] border-b border-[#1c1c1c]/10 scroll-mt-20">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-white/10">
-          <div>
-            <div className="text-xs uppercase tracking-widest text-[#c59b27] font-medium mb-2">
-              Transparent Craft Pricing
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[#f8f5ee] tracking-tight">
-              Service Menu &amp; Treatments
-            </h2>
-            <p className="text-sm text-[#a09a8e] mt-2 max-w-xl">
-              All appointments include thorough personal consultation, hot towel nape shave, and signature botanical grooming finish. No hidden fees.
-            </p>
-          </div>
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <span className="meta-tag">Selected Treatments</span>
+          <h2 className="serif-display text-3xl sm:text-5xl text-[#1c1c1c] mt-2 mb-3">
+            The Service Menu
+          </h2>
+          <p className="text-sm text-[#1c1c1c]/60 max-w-lg mx-auto">
+            All appointments include thorough personal consultation, hot towel nape shave, and signature botanical grooming finish.
+          </p>
 
           {/* Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-[#161922] rounded-lg border border-white/10 self-start md:self-end">
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
             <button
               onClick={() => setSelectedFilter('all')}
-              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+              className={`px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.12em] font-bold rounded-full transition-all ${
                 selectedFilter === 'all'
-                  ? 'bg-[#c59b27] text-[#0d0f12] font-semibold shadow-sm'
-                  : 'text-[#c0bbb2] hover:text-[#f8f5ee]'
+                  ? 'bg-[#1c1c1c] text-[#f8f7f4] shadow-sm'
+                  : 'bg-white text-[#1c1c1c]/70 hover:text-[#1c1c1c] border border-[#1c1c1c]/10'
               }`}
             >
-              All Services
+              All Treatments
             </button>
             <button
               onClick={() => setSelectedFilter('cuts')}
-              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+              className={`px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.12em] font-bold rounded-full transition-all ${
                 selectedFilter === 'cuts'
-                  ? 'bg-[#c59b27] text-[#0d0f12] font-semibold shadow-sm'
-                  : 'text-[#c0bbb2] hover:text-[#f8f5ee]'
+                  ? 'bg-[#1c1c1c] text-[#f8f7f4] shadow-sm'
+                  : 'bg-white text-[#1c1c1c]/70 hover:text-[#1c1c1c] border border-[#1c1c1c]/10'
               }`}
             >
               Haircuts
             </button>
             <button
               onClick={() => setSelectedFilter('beards')}
-              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+              className={`px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.12em] font-bold rounded-full transition-all ${
                 selectedFilter === 'beards'
-                  ? 'bg-[#c59b27] text-[#0d0f12] font-semibold shadow-sm'
-                  : 'text-[#c0bbb2] hover:text-[#f8f5ee]'
+                  ? 'bg-[#1c1c1c] text-[#f8f7f4] shadow-sm'
+                  : 'bg-white text-[#1c1c1c]/70 hover:text-[#1c1c1c] border border-[#1c1c1c]/10'
               }`}
             >
               Shaves &amp; Beards
             </button>
             <button
               onClick={() => setSelectedFilter('combos')}
-              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+              className={`px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.12em] font-bold rounded-full transition-all ${
                 selectedFilter === 'combos'
-                  ? 'bg-[#c59b27] text-[#0d0f12] font-semibold shadow-sm'
-                  : 'text-[#c0bbb2] hover:text-[#f8f5ee]'
+                  ? 'bg-[#1c1c1c] text-[#f8f7f4] shadow-sm'
+                  : 'bg-white text-[#1c1c1c]/70 hover:text-[#1c1c1c] border border-[#1c1c1c]/10'
               }`}
             >
               Combos
             </button>
             <button
               onClick={() => setSelectedFilter('vip')}
-              className={`px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+              className={`px-4 py-1.5 text-[0.72rem] uppercase tracking-[0.12em] font-bold rounded-full transition-all ${
                 selectedFilter === 'vip'
-                  ? 'bg-[#c59b27] text-[#0d0f12] font-semibold shadow-sm'
-                  : 'text-[#c0bbb2] hover:text-[#f8f5ee]'
+                  ? 'bg-[#1c1c1c] text-[#f8f7f4] shadow-sm'
+                  : 'bg-white text-[#1c1c1c]/70 hover:text-[#1c1c1c] border border-[#1c1c1c]/10'
               }`}
             >
               VIP Ritual
@@ -87,89 +83,77 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectServiceT
           </div>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-10">
+        {/* Services Card Grid matching Variation 3 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredServices.map((service) => (
             <div
               key={service.id}
-              className={`relative bg-[#141720] border rounded-lg p-6 flex flex-col justify-between transition-all duration-200 hover:border-white/25 hover:shadow-lg ${
-                service.popular ? 'border-[#c59b27]/40 ring-1 ring-[#c59b27]/30' : 'border-white/10'
-              }`}
+              className="bg-white p-7 sm:p-8 border border-black/5 hover:-translate-y-1.5 transition-all duration-300 shadow-sm hover:shadow-xl flex flex-col justify-between"
             >
               <div>
-                {/* Quiet unboxed kicker for popular services */}
-                <div className="flex items-center justify-between text-xs text-[#8c867a] mb-2">
-                  <div className="flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-[#c59b27]" />
-                    <span className="tabular-nums">{service.durationMinutes} minutes</span>
-                  </div>
+                <div className="flex items-start justify-between">
+                  <span className="price-circle">${service.price}</span>
                   {service.popular && (
-                    <span className="text-[#c59b27] font-medium tracking-wide">
-                      Client Favorite
+                    <span className="text-[0.68rem] uppercase tracking-[0.15em] font-bold text-[#876d3e] bg-[#f8f7f4] px-2.5 py-1">
+                      Popular
                     </span>
                   )}
                 </div>
 
-                <div className="flex items-baseline justify-between gap-2 mt-1">
-                  <h3 className="font-serif font-bold text-xl text-[#f8f5ee]">
-                    {service.name}
-                  </h3>
-                  <div className="text-2xl font-serif font-bold text-[#c59b27] tabular-nums shrink-0">
-                    ${service.price}
-                  </div>
-                </div>
+                <h3 className="font-serif font-semibold text-xl text-[#1c1c1c] mt-2 mb-2">
+                  {service.name}
+                </h3>
 
-                <p className="text-xs text-[#a09a8e] mt-3 leading-relaxed">
+                <p className="text-xs sm:text-[0.85rem] text-[#1c1c1c]/65 leading-relaxed">
                   {service.description}
                 </p>
 
-                {/* What's included */}
-                <div className="mt-5 pt-4 border-t border-white/10 space-y-2">
-                  <div className="text-[11px] uppercase tracking-wider text-[#8c867a] font-medium">
-                    What's Included:
+                <div className="mt-4 pt-3 border-t border-[#1c1c1c]/10 flex items-center gap-1.5 text-[0.7rem] uppercase tracking-wider font-bold text-[#1c1c1c]/80">
+                  <Clock className="w-3.5 h-3.5 text-[#876d3e]" />
+                  <span>{service.durationMinutes} MINUTES</span>
+                </div>
+
+                {/* What's Included */}
+                <div className="mt-4 space-y-1.5">
+                  <div className="text-[0.68rem] uppercase tracking-widest text-[#876d3e] font-bold">
+                    Includes:
                   </div>
-                  <ul className="space-y-1.5">
-                    {service.includes.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-[#c0bbb2]">
-                        <Check className="w-3.5 h-3.5 text-[#c59b27] shrink-0 mt-0.5" />
-                        <span>{item}</span>
+                  <ul className="space-y-1 text-xs text-[#1c1c1c]/75">
+                    {service.includes.map((inc, i) => (
+                      <li key={i} className="flex items-start gap-1.5">
+                        <Check className="w-3 h-3 text-[#876d3e] shrink-0 mt-0.5" />
+                        <span>{inc}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
 
-              {/* Action */}
-              <div className="mt-6 pt-4 border-t border-white/10">
+              {/* Action Button */}
+              <div className="mt-6 pt-4 border-t border-[#1c1c1c]/10">
                 <button
                   onClick={() => onSelectServiceToBook(service.id)}
-                  className={`w-full py-2.5 px-4 rounded text-xs font-semibold tracking-wide transition-colors flex items-center justify-center gap-2 ${
-                    service.popular
-                      ? 'bg-[#c59b27] text-[#0d0f12] hover:bg-[#d8ab34]'
-                      : 'bg-white/5 text-[#f8f5ee] hover:bg-white/10 border border-white/10'
-                  }`}
+                  className="w-full py-2.5 px-4 text-[0.72rem] uppercase tracking-[0.14em] font-bold text-[#1c1c1c] bg-[#f8f7f4] hover:bg-[#1c1c1c] hover:text-[#f8f7f4] border border-[#1c1c1c]/20 transition-all flex items-center justify-center gap-2"
                 >
-                  <Scissors className="w-3.5 h-3.5" />
-                  <span>Book This Service (${service.price})</span>
+                  <Scissors className="w-3.5 h-3.5 text-[#876d3e]" />
+                  <span>Book Treatment</span>
                 </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Add-ons & Grooming Bar */}
-        <div className="mt-12 bg-[#141720] border border-white/10 rounded-lg p-6 sm:p-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+        {/* Chair Add-ons & Scalp Treatments */}
+        <div className="mt-16 bg-white p-6 sm:p-8 border border-black/5 shadow-sm">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#1c1c1c]/10">
             <div>
-              <div className="text-xs uppercase tracking-wider text-[#c59b27] font-medium">
-                Chair Enhancements
-              </div>
-              <h3 className="text-xl font-serif font-bold text-[#f8f5ee] mt-1">
+              <span className="meta-tag">Chair Enhancements</span>
+              <h3 className="serif-display text-2xl text-[#1c1c1c] mt-1">
                 Apothecary &amp; Scalp Add-Ons
               </h3>
             </div>
-            <p className="text-xs text-[#8c867a] max-w-md">
-              Add any of these treatments seamlessly during your online booking or consult directly with your barber on chair arrival.
+            <p className="text-xs text-[#1c1c1c]/60 max-w-sm">
+              Incorporate any of these restorative steps into your booking.
             </p>
           </div>
 
@@ -177,46 +161,45 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onSelectServiceT
             {ADDONS.map((addon) => (
               <div
                 key={addon.id}
-                className="bg-[#171b26] p-4 rounded border border-white/5 flex flex-col justify-between"
+                className="bg-[#f8f7f4] p-4 border border-[#1c1c1c]/5"
               >
-                <div>
-                  <div className="flex items-start justify-between">
-                    <span className="font-medium text-sm text-[#f8f5ee]">{addon.name}</span>
-                    <span className="text-sm font-semibold text-[#c59b27] tabular-nums">+${addon.price}</span>
-                  </div>
-                  <div className="text-[11px] text-[#8c867a] mt-1">+{addon.durationMinutes} mins</div>
-                  <p className="text-xs text-[#a09a8e] mt-2 leading-relaxed">
-                    {addon.description}
-                  </p>
+                <div className="flex items-start justify-between">
+                  <span className="font-serif font-semibold text-base text-[#1c1c1c]">
+                    {addon.name}
+                  </span>
+                  <span className="text-base font-serif font-bold text-[#876d3e] tabular-nums">
+                    +${addon.price}
+                  </span>
                 </div>
+                <div className="text-[0.68rem] uppercase tracking-wider text-[#1c1c1c]/50 font-bold mt-1">
+                  +{addon.durationMinutes} MIN
+                </div>
+                <p className="text-xs text-[#1c1c1c]/65 mt-2 leading-relaxed">
+                  {addon.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Grooming Club Card / Membership */}
-        <div className="mt-12 bg-gradient-to-r from-[#171a24] to-[#1d222f] border border-[#c59b27]/30 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs text-[#c59b27] font-medium uppercase tracking-wider">
-              <ShieldCheck className="w-4 h-4" />
-              <span>The Gentleman's Circle Membership</span>
-            </div>
-            <h3 className="text-2xl font-serif font-bold text-[#f8f5ee]">
+        {/* Membership Banner */}
+        <div className="mt-10 bg-white border border-[#876d3e]/30 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+          <div>
+            <span className="meta-tag">The Gentleman's Circle</span>
+            <h3 className="serif-display text-2xl sm:text-3xl text-[#1c1c1c] mt-1">
               Unlimited Nape Cleanups &amp; Priority Booking
             </h3>
-            <p className="text-xs sm:text-sm text-[#a09a8e] max-w-2xl leading-relaxed">
-              $89 / month. Includes 2 full signature haircut sessions, unlimited walk-in neckline razor cleanups between cuts, and 15% off all apothecary styling pomades.
+            <p className="text-xs sm:text-sm text-[#1c1c1c]/65 mt-2 max-w-xl">
+              $89 / month. Includes 2 signature haircut sessions, unlimited walk-in neckline razor trims, and 15% off all apothecary styling pomades.
             </p>
           </div>
 
-          <div className="shrink-0 flex items-center gap-4">
-            <button
-              onClick={() => onSelectServiceToBook('srv-signature-cut')}
-              className="px-5 py-3 text-xs font-semibold text-[#0d0f12] bg-[#c59b27] hover:bg-[#d8ab34] rounded transition-colors whitespace-nowrap shadow-md"
-            >
-              Inquire at Chair
-            </button>
-          </div>
+          <button
+            onClick={() => onSelectServiceToBook('srv-signature-cut')}
+            className="btn-elegant whitespace-nowrap"
+          >
+            Inquire at Chair
+          </button>
         </div>
 
       </div>
