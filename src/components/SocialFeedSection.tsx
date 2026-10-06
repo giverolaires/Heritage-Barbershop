@@ -8,7 +8,7 @@ import {
   Send,
   Star,
 } from 'lucide-react';
-import { SOCIAL_POSTS, TESTIMONIALS, SocialFeedPost } from '../data/barbershopData';
+import { SOCIAL_POSTS, TESTIMONIALS, SocialFeedPost, haircutTexturedFadeImg } from '../data/barbershopData';
 
 interface SocialFeedProps {
   onBookAppointment: () => void;
@@ -89,7 +89,7 @@ export const SocialFeedSection: React.FC<SocialFeedProps> = ({ onBookAppointment
           : `@${clientHandle.trim()}`
         : `@${clientName.toLowerCase().replace(/\s+/g, '_')}`,
       avatar: clientName.slice(0, 2).toUpperCase(),
-      imageUrl: '/src/assets/images/haircut_textured_fade_1791282728777.jpg',
+      imageUrl: haircutTexturedFadeImg,
       caption: `${reviewQuote.trim()} Styled by ${barberName} at Heritage & Blade.`,
       serviceName,
       barberName,

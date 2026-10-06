@@ -8,7 +8,7 @@ import { BarberTeamSection } from './components/BarberTeamSection';
 import { Footer } from './components/Footer';
 import { BookingSystem } from './components/BookingSystem';
 import { MyAppointmentsDrawer } from './components/MyAppointmentsDrawer';
-import { Appointment } from './data/barbershopData';
+import { Appointment, barberCraftActionImg } from './data/barbershopData';
 import { CheckCircle2, Scissors } from 'lucide-react';
 
 const STORAGE_KEY = 'heritage_blade_appointments';
@@ -52,7 +52,7 @@ export default function App() {
           bio: 'Trained in traditional London barbering.',
           rating: 4.98,
           reviewCount: 384,
-          avatarUrl: '/src/assets/images/barber_craft_action_1791282769913.jpg',
+          avatarUrl: barberCraftActionImg,
           workingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
         },
         date: new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0],

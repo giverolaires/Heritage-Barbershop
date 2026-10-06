@@ -14,6 +14,7 @@ import {
   Copy,
   Download,
   CheckCircle2,
+  Image as ImageIcon,
 } from 'lucide-react';
 import {
   SERVICES,
@@ -25,6 +26,7 @@ import {
   BarberMaster,
   Appointment,
 } from '../data/barbershopData';
+import { downloadReceiptPng } from '../utils/receiptGenerator';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -79,6 +81,7 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
   // Created appointment result
   const [confirmedAppointment, setConfirmedAppointment] = useState<Appointment | null>(null);
   const [copiedCode, setCopiedCode] = useState(false);
+  const [isDownloadingPng, setIsDownloadingPng] = useState(false);
 
   useEffect(() => {
     if (preselectedServiceId) {
@@ -183,6 +186,18 @@ export const BookingSystem: React.FC<BookingModalProps> = ({
         setCopiedCode(true);
         setTimeout(() => setCopiedCode(false), 2500);
       }
+    }
+  };
+
+  const handleDownloadReceiptPng = async () => {
+    if (!confirmedAppointment) return;
+    try {
+      setIsDownloadingPng(true);
+      await downloadReceiptPng(confirmedAppointment);
+    } catch (e) {
+      console.error('Failed to generate PNG receipt', e);
+    } finally {
+      setIsDownloadingPng(false);
     }
   };
 
@@ -646,63 +661,108 @@ END:VCALENDAR`;
                 </p>
               </div>
 
-              {/* Pass Card */}
-              <div className="max-w-md mx-auto bg-white border border-[#1c1c1c]/15 p-6 text-left space-y-4 shadow-xl">
-                <div className="flex items-center justify-between pb-3 border-b border-[#1c1c1c]/10">
-                  <div>
-                    <span className="meta-tag">Booking Reference</span>
-                    <div className="serif-display text-2xl font-bold text-[#876d3e] tracking-widest">
-                      {confirmedAppointment.bookingRef}
-                    </div>
+              {/* Receipt Pass Card matching background design */}
+              <div className="max-w-lg mx-auto bg-[#f8f7f4] border border-[#1c1c1c]/20 p-6 sm:p-7 text-left space-y-4 shadow-xl relative">
+                {/* Decorative inner hairline frame */}
+                <div className="absolute inset-2 border border-[#876d3e]/30 pointer-events-none" />
+
+                {/* Receipt Header */}
+                <div className="text-center pb-3 border-b border-[#1c1c1c]/15">
+                  <div className="serif-display italic text-2xl text-[#1c1c1c]">Heritage &amp; Blade</div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#876d3e]">
+                    Craft Grooming &amp; Apothecary · Est. 2018
                   </div>
-                  <button
-                    onClick={handleCopyCode}
-                    className="flex items-center gap-1.5 px-2.5 py-1 text-xs border border-[#1c1c1c]/20 hover:border-[#1c1c1c] text-[#1c1c1c]"
-                  >
-                    {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copiedCode ? 'Copied' : 'Copy'}</span>
-                  </button>
+                  <div className="text-[10px] text-[#1c1c1c]/50 mt-0.5">
+                    418 St. Clair Ave, Suite 4 · Midtown District, Toronto
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 text-xs">
+                <div className="flex items-center justify-between pb-2 border-b border-[#1c1c1c]/10">
                   <div>
-                    <div className="text-[#1c1c1c]/50">Date &amp; Arrival</div>
-                    <div className="font-semibold text-[#1c1c1c] mt-0.5">{confirmedAppointment.date}</div>
-                    <div className="text-[#876d3e] font-bold">{confirmedAppointment.timeSlot}</div>
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-[#876d3e]">Pass Reference</span>
+                    <div className="serif-display text-2xl font-bold text-[#1c1c1c] tracking-wider">
+                      #{confirmedAppointment.bookingRef}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-[#f8f7f4] bg-[#1c1c1c] px-2.5 py-1">
+                      CONFIRMED
+                    </span>
+                    <button
+                      onClick={handleCopyCode}
+                      className="flex items-center gap-1 px-2 py-1 text-xs border border-[#1c1c1c]/20 hover:border-[#1c1c1c] text-[#1c1c1c] bg-white"
+                      title="Copy pass details"
+                    >
+                      {copiedCode ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 p-3 bg-white border border-[#1c1c1c]/10 text-xs">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-wider font-bold text-[#876d3e]">Patron</div>
+                    <div className="font-semibold text-[#1c1c1c] mt-0.5">{confirmedAppointment.clientName}</div>
+                    <div className="text-[11px] text-[#1c1c1c]/60">{confirmedAppointment.clientPhone}</div>
                   </div>
                   <div>
-                    <div className="text-[#1c1c1c]/50">Master Barber</div>
+                    <div className="text-[10px] uppercase tracking-wider font-bold text-[#876d3e]">Chair &amp; Barber</div>
                     <div className="font-semibold text-[#1c1c1c] mt-0.5">{confirmedAppointment.barber.name}</div>
-                    <div className="text-[#1c1c1c]/60">{confirmedAppointment.barber.title}</div>
+                    <div className="text-[11px] text-[#876d3e] font-bold">{confirmedAppointment.date} · {confirmedAppointment.timeSlot}</div>
                   </div>
                 </div>
 
-                <div className="text-xs pt-3 border-t border-[#1c1c1c]/10">
-                  <div className="text-[#1c1c1c]/50">Treatment:</div>
-                  <div className="text-[#1c1c1c] font-semibold">{confirmedAppointment.service.name}</div>
-                  {confirmedAppointment.addons.length > 0 && (
-                    <div className="text-[#1c1c1c]/60 mt-0.5">
-                      + {confirmedAppointment.addons.map((a) => a.name).join(', ')}
+                {/* Itemized Table */}
+                <div className="space-y-1.5 text-xs pt-1">
+                  <div className="flex justify-between items-center text-[#1c1c1c]">
+                    <div>
+                      <span className="font-semibold">{confirmedAppointment.service.name}</span>
+                      <span className="text-[11px] text-[#1c1c1c]/50 ml-1">({confirmedAppointment.service.durationMinutes}m)</span>
                     </div>
-                  )}
-                  <div className="mt-2 text-right serif-display text-xl font-bold text-[#876d3e] tabular-nums">
-                    Total: ${confirmedAppointment.totalPrice}
+                    <span className="font-serif font-bold text-sm tabular-nums">${confirmedAppointment.service.price}</span>
                   </div>
+                  {confirmedAppointment.addons.map((a) => (
+                    <div key={a.id} className="flex justify-between items-center text-[#1c1c1c]/70 text-[11px]">
+                      <span>+ {a.name} ({a.durationMinutes}m)</span>
+                      <span className="tabular-nums">+${a.price}</span>
+                    </div>
+                  ))}
+                  <div className="pt-2 border-t border-[#1c1c1c]/15 flex justify-between items-center">
+                    <span className="text-xs uppercase tracking-wider font-bold text-[#1c1c1c]">Total Due in Chair</span>
+                    <span className="serif-display text-2xl font-bold text-[#876d3e] tabular-nums">
+                      ${confirmedAppointment.totalPrice}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Security Verification Stamp */}
+                <div className="pt-2 border-t border-[#1c1c1c]/10 flex items-center justify-between text-[10px] text-[#1c1c1c]/60">
+                  <span>Single-Chair Punctuality Guaranteed</span>
+                  <span className="font-bold tracking-wider text-[#876d3e]">★ VERIFIED PASS ★</span>
                 </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              {/* Actions with PNG Receipt Download */}
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
+                <button
+                  onClick={handleDownloadReceiptPng}
+                  disabled={isDownloadingPng}
+                  className="btn-elegant px-5 py-3 text-[0.72rem] shadow-md flex items-center gap-2"
+                >
+                  <ImageIcon className="w-4 h-4 text-[#876d3e]" />
+                  <span>{isDownloadingPng ? 'Generating PNG...' : 'Download Receipt (PNG)'}</span>
+                </button>
+
                 <button
                   onClick={handleDownloadCalendar}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider font-bold text-[#1c1c1c] bg-white border border-[#1c1c1c]/20 hover:border-[#1c1c1c] transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 text-xs uppercase tracking-wider font-bold text-[#1c1c1c] bg-white border border-[#1c1c1c]/20 hover:border-[#1c1c1c] transition-colors"
                 >
                   <Download className="w-3.5 h-3.5 text-[#876d3e]" />
-                  <span>Download .ICS Calendar Pass</span>
+                  <span>.ICS Calendar Pass</span>
                 </button>
+
                 <button
                   onClick={onClose}
-                  className="btn-elegant px-6 py-2.5 text-[0.7rem]"
+                  className="px-5 py-2.5 text-xs uppercase tracking-wider font-bold text-[#1c1c1c]/60 hover:text-[#1c1c1c]"
                 >
                   Done
                 </button>

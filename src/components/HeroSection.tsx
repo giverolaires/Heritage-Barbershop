@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Clock, ShieldCheck, MapPin } from 'lucide-react';
+import { heroBarbershopImg } from '../data/barbershopData';
 
 interface HeroSectionProps {
   onOpenBooking: () => void;
@@ -77,7 +78,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="img-wrap">
               <div className="relative aspect-[4/3] overflow-hidden bg-[#ece8de]">
                 <img
-                  src="/src/assets/images/hero_barbershop_interior_1791282714553.jpg"
+                  src={heroBarbershopImg}
                   alt="Heritage and Blade Studio"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"

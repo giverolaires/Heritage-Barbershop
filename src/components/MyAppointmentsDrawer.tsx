@@ -1,6 +1,7 @@
-import React from 'react';
-import { X, Calendar, Clock, Scissors, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Calendar, Clock, Scissors, Trash2, Image as ImageIcon } from 'lucide-react';
 import { Appointment } from '../data/barbershopData';
+import { downloadReceiptPng } from '../utils/receiptGenerator';
 
 interface MyAppointmentsModalProps {
   isOpen: boolean;
@@ -17,6 +18,19 @@ export const MyAppointmentsDrawer: React.FC<MyAppointmentsModalProps> = ({
   onCancelAppointment,
   onBookNew,
 }) => {
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+
+  const handleDownloadReceipt = async (apt: Appointment) => {
+    try {
+      setDownloadingId(apt.id);
+      await downloadReceiptPng(apt);
+    } catch (e) {
+      console.error('Failed to download receipt', e);
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -109,13 +123,22 @@ export const MyAppointmentsDrawer: React.FC<MyAppointmentsModalProps> = ({
                   </div>
 
                   {apt.status === 'confirmed' && (
-                    <div className="pt-2 border-t border-[#1c1c1c]/5 flex justify-end">
+                    <div className="pt-2 border-t border-[#1c1c1c]/10 flex items-center justify-between">
+                      <button
+                        onClick={() => handleDownloadReceipt(apt)}
+                        disabled={downloadingId === apt.id}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#1c1c1c] bg-[#f8f7f4] border border-[#1c1c1c]/20 hover:border-[#1c1c1c] transition-colors"
+                      >
+                        <ImageIcon className="w-3.5 h-3.5 text-[#876d3e]" />
+                        <span>{downloadingId === apt.id ? 'Saving PNG...' : 'Download Receipt (PNG)'}</span>
+                      </button>
+
                       <button
                         onClick={() => onCancelAppointment(apt.id)}
                         className="inline-flex items-center gap-1 text-xs text-rose-600 hover:underline font-medium"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
-                        <span>Cancel Reservation</span>
+                        <span>Cancel</span>
                       </button>
                     </div>
                   )}

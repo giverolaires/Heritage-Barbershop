@@ -1,3 +1,17 @@
+import heroBarbershopImg from '../assets/images/hero_barbershop_interior_1791282714553.jpg';
+import haircutTexturedFadeImg from '../assets/images/haircut_textured_fade_1791282728777.jpg';
+import haircutPompadourImg from '../assets/images/haircut_classic_pompadour_1791282745858.jpg';
+import haircutBeardSculptImg from '../assets/images/haircut_beard_sculpt_1791282757829.jpg';
+import barberCraftActionImg from '../assets/images/barber_craft_action_1791282769913.jpg';
+
+export {
+  heroBarbershopImg,
+  haircutTexturedFadeImg,
+  haircutPompadourImg,
+  haircutBeardSculptImg,
+  barberCraftActionImg,
+};
+
 export interface BarberService {
   id: string;
   name: string;
@@ -204,7 +218,7 @@ export const BARBERS: BarberMaster[] = [
     bio: 'Trained in traditional London barbering and modern West Coast fades. Known for microscopic attention to hairline symmetry and razor detailing.',
     rating: 4.98,
     reviewCount: 384,
-    avatarUrl: '/src/assets/images/barber_craft_action_1791282769913.jpg',
+    avatarUrl: barberCraftActionImg,
     badge: 'Co-Founder',
     workingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
   },
@@ -217,7 +231,7 @@ export const BARBERS: BarberMaster[] = [
     bio: 'Former session stylist dedicated to craft barbering. Elena excels in natural shears motion, flow hairstyles, and tailored low tapers that grow out effortlessly.',
     rating: 4.95,
     reviewCount: 298,
-    avatarUrl: '/src/assets/images/haircut_classic_pompadour_1791282745858.jpg',
+    avatarUrl: haircutPompadourImg,
     badge: 'Texture Lead',
     workingDays: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   },
@@ -230,7 +244,7 @@ export const BARBERS: BarberMaster[] = [
     bio: 'Renowned for razor-sharp tapers and relaxing hot-towel wet shaves. Darius treats every cut like an artisanal sculpture.',
     rating: 4.92,
     reviewCount: 245,
-    avatarUrl: '/src/assets/images/haircut_textured_fade_1791282728777.jpg',
+    avatarUrl: haircutTexturedFadeImg,
     badge: 'Razor Master',
     workingDays: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
   },
@@ -242,7 +256,7 @@ export const HAIRCUT_STYLES: HaircutStyle[] = [
     title: 'Modern Textured Crop & Skin Fade',
     category: 'fades',
     categoryLabel: 'Fades & Crops',
-    imageUrl: '/src/assets/images/haircut_textured_fade_1791282728777.jpg',
+    imageUrl: haircutTexturedFadeImg,
     durationMinutes: 50,
     price: 52,
     serviceId: 'srv-skin-fade',
@@ -258,7 +272,7 @@ export const HAIRCUT_STYLES: HaircutStyle[] = [
     title: 'Executive Low Taper Pompadour',
     category: 'classics',
     categoryLabel: 'Classics & Tapers',
-    imageUrl: '/src/assets/images/haircut_classic_pompadour_1791282745858.jpg',
+    imageUrl: haircutPompadourImg,
     durationMinutes: 45,
     price: 45,
     serviceId: 'srv-signature-cut',
@@ -274,7 +288,7 @@ export const HAIRCUT_STYLES: HaircutStyle[] = [
     title: 'Sculpted Beard & Razor Contour',
     category: 'beards',
     categoryLabel: 'Beard Artistry',
-    imageUrl: '/src/assets/images/haircut_beard_sculpt_1791282757829.jpg',
+    imageUrl: haircutBeardSculptImg,
     durationMinutes: 35,
     price: 36,
     serviceId: 'srv-beard-sculpt',
@@ -290,7 +304,7 @@ export const HAIRCUT_STYLES: HaircutStyle[] = [
     title: 'Artisanal Shear Craft & Hot Towel Finish',
     category: 'modern',
     categoryLabel: 'Signature Craft',
-    imageUrl: '/src/assets/images/barber_craft_action_1791282769913.jpg',
+    imageUrl: barberCraftActionImg,
     durationMinutes: 75,
     price: 75,
     serviceId: 'srv-cut-beard-combo',
@@ -309,7 +323,7 @@ export const SOCIAL_POSTS: SocialFeedPost[] = [
     authorName: 'Julian Mercer',
     handle: '@jmercer_arch',
     avatar: 'JM',
-    imageUrl: '/src/assets/images/haircut_textured_fade_1791282728777.jpg',
+    imageUrl: haircutTexturedFadeImg,
     caption: 'Fresh skin fade by @marcus.vance before the studio architecture summit. The line work is untouched. Nobody touches my hair other than Heritage & Blade.',
     serviceName: 'Skin Fade & Razor Taper',
     barberName: 'Marcus Vance',
@@ -325,7 +339,7 @@ export const SOCIAL_POSTS: SocialFeedPost[] = [
     authorName: 'Heritage & Blade Studio',
     handle: '@heritageandblade',
     avatar: 'HB',
-    imageUrl: '/src/assets/images/hero_barbershop_interior_1791282714553.jpg',
+    imageUrl: heroBarbershopImg,
     caption: 'Studio doors open at 8:00 AM. Warm cedarwood steam, fresh espresso pulled, and vintage Belmont chairs oiled. Book your chair online before the weekend fills.',
     serviceName: 'Studio Announcement',
     barberName: 'Heritage Team',
@@ -340,7 +354,7 @@ export const SOCIAL_POSTS: SocialFeedPost[] = [
     authorName: 'Christian Cole',
     handle: '@ccole_fin',
     avatar: 'CC',
-    imageUrl: '/src/assets/images/haircut_classic_pompadour_1791282745858.jpg',
+    imageUrl: haircutPompadourImg,
     caption: 'Elena dialed in the low taper pompadour just right. Natural flow, zero greasy residue, and effortless morning styling. 10/10 master barber.',
     serviceName: 'The Signature Haircut',
     barberName: 'Elena Rostova',
@@ -356,7 +370,7 @@ export const SOCIAL_POSTS: SocialFeedPost[] = [
     authorName: 'Marcus Vance',
     handle: '@marcus.vance',
     avatar: 'MV',
-    imageUrl: '/src/assets/images/haircut_beard_sculpt_1791282757829.jpg',
+    imageUrl: haircutBeardSculptImg,
     caption: 'Clean razor contour for David today. Notice how tapering down from 1.5 into the beard cheek gives clean cheekbones without sacrificing chin density.',
     serviceName: 'Beard Sculpt & Razor Lineup',
     barberName: 'Marcus Vance',
@@ -371,7 +385,7 @@ export const SOCIAL_POSTS: SocialFeedPost[] = [
     authorName: 'Aaron Diaz',
     handle: '@aarondiaz.creative',
     avatar: 'AD',
-    imageUrl: '/src/assets/images/barber_craft_action_1791282769913.jpg',
+    imageUrl: barberCraftActionImg,
     caption: 'The Executive Ritual here is on another level. Hot towel with eucalyptus steam, straight razor shave, and cold stone wrap. Felt like a brand new man walking out.',
     serviceName: 'Executive Grooming Ritual',
     barberName: 'Darius King',
